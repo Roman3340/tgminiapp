@@ -11,7 +11,7 @@ let telInput = document.getElementById("tel");
 // Добавляем обработчики для всех полей
 inputs.forEach(input => {
     input.addEventListener("input", checkInputs);
-    input.addEventListener("blur", validateInput);
+    input.addEventListener("blur", validateInputOnBlur);
 });
 
 document.addEventListener("click", function(event) {
@@ -20,7 +20,7 @@ document.addEventListener("click", function(event) {
     }
 });
 
-function validateInput(event) {
+function validateInputOnBlur(event) {
     let input = event.target;
     let errorMessage = input.nextElementSibling;
 
@@ -59,7 +59,6 @@ function formatPhoneNumber(value) {
 telInput.addEventListener("input", function(event) {
     let formattedValue = formatPhoneNumber(event.target.value);
     event.target.value = formattedValue;
-    validateInput(event);
     checkInputs();
 });
 
