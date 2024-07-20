@@ -11,6 +11,14 @@ inputs.forEach(input => {
     input.addEventListener("input", checkInputs);
 });
 
+// Добавляем обработчик кликов на весь документ
+document.addEventListener("click", function(event) {
+    // Если клик не на input элементе, убираем фокус с текущего input
+    if (!event.target.matches("input")) {
+        document.activeElement.blur();
+    }
+});
+
 function checkInputs() {
     let allFilled = true;
     inputs.forEach(input => {
