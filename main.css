@@ -16,6 +16,11 @@ body {
 	grid-template-rows: 200px 200px 200px;
 }
 
+.reg {
+    display: inline-block;
+    margin: 50px;
+}
+
 .img {
 	width: 100px;
 }
