@@ -14,6 +14,12 @@ inputs.forEach(input => {
     input.addEventListener("blur", validateInput);
 });
 
+document.addEventListener("click", function(event) {
+    if (!event.target.matches("input")) {
+        document.activeElement.blur();
+    }
+});
+
 function validateInput(event) {
     let input = event.target;
     let errorMessage = input.nextElementSibling;
@@ -42,19 +48,19 @@ function validatePhoneNumber(value) {
 
 function formatPhoneNumber(value) {
     const numbers = value.replace(/\D/g, '');
-    const char = { 0: '+7-', 3: '-', 6: '-', 8: '-' };
-    value = '';
-    for (let i = 0; i < numbers.length; i++) {
-        value += (char[i] || '') + numbers[i];
-    }
-    return value.slice(0, 16); // ограничение длины номера
+    let result = '+7';
+    if (numbers.length > 1) result += '-' + numbers.slice(1, 4);
+    if (numbers.length > 4) result += '-' + numbers.slice(4, 7);
+    if (numbers.length > 7) result += '-' + numbers.slice(7, 9);
+    if (numbers.length > 9) result += '-' + numbers.slice(9, 11);
+    return result;
 }
 
 telInput.addEventListener("input", function(event) {
     let formattedValue = formatPhoneNumber(event.target.value);
     event.target.value = formattedValue;
-    validateInput(event); // Проверка после форматирования
-    checkInputs(); // Перепроверка состояния всех полей
+    validateInput(event);
+    checkInputs();
 });
 
 function checkInputs() {
@@ -82,7 +88,7 @@ Telegram.WebApp.onEvent("mainButtonClicked", function() {
     inputs.forEach(input => {
         formData[input.id] = input.value.trim();
     });
-    tg.sendData(JSON.stringify(formData)); // Отправка данных в виде строки JSON
+    tg.sendData(JSON.stringify(formData));
 });
 
 let usercard = document.getElementById("usercard");
