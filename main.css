@@ -11,6 +11,7 @@ body {
     position: relative;
     display: flex;
     margin-top: 15px;
+    margin-left: 4%;
     border-radius: 50%;
 }
 
