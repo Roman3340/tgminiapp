@@ -10,62 +10,57 @@ let telInput = document.getElementById("tel");
 
 // Добавляем обработчики для всех полей
 inputs.forEach(input => {
-    input.addEventListener("input", handleInput);
-    input.addEventListener("blur", validateInputOnBlur);
-    input.addEventListener("focus", clearErrorMessage);
+  input.addEventListener("input", handleInput);
+  input.addEventListener("blur", validateInputOnBlur);
+  input.addEventListener("focus", clearErrorMessage);
 });
 
 document.addEventListener("click", function(event) {
-    if (!event.target.matches("input")) {
-        document.activeElement.blur();
-    }
+  if (!event.target.matches("input")) {
+    document.activeElement.blur();
+  }
 });
 
 function validateInputOnBlur(event) {
-    let input = event.target;
-    let errorMessage = input.nextElementSibling;
+  let input = event.target;
+  let errorMessage = input.nextElementSibling;
 
-    // Создаем сообщение об ошибке, если оно отсутствует
-    if (!errorMessage || !errorMessage.classList.contains('error-message')) {
-        errorMessage = document.createElement('span');
-        errorMessage.classList.add('error-message');
-        input.parentNode.appendChild(errorMessage);
-    }
+  // Создаем сообщение об ошибке, если оно отсутствует
+  if (!errorMessage || !errorMessage.classList.contains('error-message')) {
+    errorMessage = document.createElement('span');
+    errorMessage.classList.add('error-message');
+    input.parentNode.appendChild(errorMessage);
+  }
 
-    // Проверяем состояние поля
-    if (input.value.trim() === "") {
-        if (!errorMessage.textContent) { // Если сообщение об ошибке пустое, устанавливаем текст
-            errorMessage.textContent = "*обязательно для заполнения";
-            input.classList.add('input-error');
-        }
-    } else if (input.id === "tel" && !validatePhoneNumber(input.value)) {
-        if (!errorMessage.textContent) { // Если сообщение об ошибке пустое, устанавливаем текст
-            errorMessage.textContent = "*номер заполнен не полностью";
-            input.classList.add('input-error');
-        }
-    } else {
-        errorMessage.textContent = ""; // Очищаем сообщение об ошибке
-        input.classList.remove('input-error');
-    }
+  // Проверяем состояние поля
+  if (input.value === "") {
+    errorMessage.textContent = "*обязательно для заполнения";
+    input.classList.add('input-error');
+  } else if (input.id === "tel" && !validatePhoneNumber(input.value)) {
+    errorMessage.textContent = "*номер заполнен не полностью";
+    input.classList.add('input-error');
+  } else {
+    errorMessage.textContent = "";
+    input.classList.remove('input-error');
+  }
 }
 
 function clearErrorMessage(event) {
-    let input = event.target;
-    let errorMessage = input.nextElementSibling;
+  let input = event.target;
+  let errorMessage = input.nextElementSibling;
 
-    if (errorMessage && errorMessage.classList.contains('error-message')) {
-        errorMessage.textContent = ""; // Очищаем сообщение об ошибке
-        input.classList.remove('input-error');
-    }
+  if (errorMessage && errorMessage.classList.contains('error-message')) {
+    errorMessage.parentNode.removeChild(errorMessage); // Удаляем элемент
+  }
 }
 
 function handleInput(event) {
-    let input = event.target;
-    if (input.id === "tel") {
-        let formattedValue = formatPhoneNumber(input.value);
-        input.value = formattedValue;
-    }
-    checkInputs();
+  let input = event.target;
+  if (input.id === "tel") {
+    let formattedValue = formatPhoneNumber(input.value);
+    input.value = formattedValue;
+  }
+  checkInputs();
 }
 
 function validatePhoneNumber(value) {
