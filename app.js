@@ -12,6 +12,7 @@ let telInput = document.getElementById("tel");
 inputs.forEach(input => {
     input.addEventListener("input", checkInputs);
     input.addEventListener("blur", validateInputOnBlur);
+    input.addEventListener("focus", clearErrorMessage); // Добавляем обработчик на фокус
 });
 
 document.addEventListener("click", function(event) {
@@ -37,6 +38,16 @@ function validateInputOnBlur(event) {
         errorMessage.textContent = "*номер заполнен не полностью";
         input.classList.add('input-error');
     } else {
+        errorMessage.textContent = "";
+        input.classList.remove('input-error');
+    }
+}
+
+function clearErrorMessage(event) {
+    let input = event.target;
+    let errorMessage = input.nextElementSibling;
+
+    if (errorMessage && errorMessage.classList.contains('error-message')) {
         errorMessage.textContent = "";
         input.classList.remove('input-error');
     }

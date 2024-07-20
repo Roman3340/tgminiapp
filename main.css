@@ -22,16 +22,23 @@ body {
     font-size: 14px;
     text-align: center;
     margin-bottom: 5px;
+    border: 1px solid #ccc; /* Default border color */
 }
 
 .error-message {
     color: red;
     font-size: 12px;
     margin-top: 5px;
+    display: block; /* Ensure the error message does not cause layout issues */
 }
 
 .input-error {
     border-color: red;
+}
+
+/* Ensure that no extra space is added to the container */
+.container span.error-message {
+    display: block;
 }
 
 .inner {
