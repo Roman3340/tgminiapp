@@ -8,6 +8,10 @@ body {
 
 .container {
 	max-width: 390px;
+    position: relative;
+    display: flex;
+    
+
 }
 
 .inner {
@@ -16,9 +20,10 @@ body {
 	grid-template-rows: 200px 200px 200px;
 }
 
-.reg {
-    display: inline-block;
-    margin: 50px;
+.reg-table {
+    width: 100%;
+    margin-bottom: 20px;
+    border-collapse: collapse;
 }
 
 .img {
