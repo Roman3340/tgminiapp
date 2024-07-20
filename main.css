@@ -7,12 +7,12 @@ body {
 }
 
 .container {
-	max-width: 390px;
+    max-width: 390px;
     position: relative;
     display: flex;
+    justify-content: center; /* Центрирование по горизонтали */
+    align-items: center; /* Центрирование по вертикали */
     margin-top: 15px;
-    margin-left: 15%;
-    border-radius: 50%;
 }
 
 .container input {
@@ -21,6 +21,26 @@ body {
     padding: 15px;
     font-size: 14px;
     text-align: center;
+}
+
+.container input {
+    border-radius: 15px;
+    width: 190px;
+    padding: 15px;
+    font-size: 14px;
+    text-align: center;
+    margin-bottom: 5px;
+}
+
+.error-message {
+    color: red;
+    font-size: 12px;
+    margin-top: -10px;
+    margin-bottom: 10px;
+}
+
+.input-error {
+    border-color: red;
 }
 
 .inner {
