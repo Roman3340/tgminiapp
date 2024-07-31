@@ -36,6 +36,12 @@ body {
     margin-bottom: 10px; /* Добавьте отступ при отображении ошибки */
   }
 
+  .ui-autocomplete {
+    max-height: 200px;
+    overflow-y: auto;
+    overflow-x: hidden;
+}
+
 .inner {
 	display: grid;
 	grid-template-columns: 1fr 1fr;
