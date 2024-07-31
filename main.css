@@ -83,3 +83,15 @@ body {
 .usercard {
 	text-align: center;
 }
+
+.hidden {
+   display: none; 
+  }
+
+.page {
+    display: none; /* Все страницы скрыты по умолчанию */
+}
+
+#form-page {
+    display: block; /* Отображаем страницу формы по умолчанию */
+}
