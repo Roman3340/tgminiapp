@@ -8,7 +8,9 @@ tg.MainButton.color = '#2cab37';
 let inputs = document.querySelectorAll("input");
 let telInput = document.getElementById("tel");
 
-// Добавляем обработчики для всех полей
+// Регулярное выражение для проверки регистрационного номера
+const registrationNumberPattern = /^[А-Я]{1}[0-9]{3}[А-Я]{2}\d{2,3}$/;
+
 inputs.forEach(input => {
   input.addEventListener("input", handleInput);
   input.addEventListener("blur", validateInputOnBlur);
@@ -43,6 +45,21 @@ function validateInputOnBlur(event) {
       errorMessage.textContent = "*номер заполнен не полностью";
       input.classList.add('input-error');
       input.dataset.errorShown = "true"; // Устанавливаем флаг ошибки
+    } else if (input.id === "carreg" && !registrationNumberPattern.test(input.value)) {
+      errorMessage.textContent = "*Неверный формат регистрационного номера. Пример: Т745РЕ154";
+      input.classList.add('input-error');
+      input.dataset.errorShown = "true"; // Устанавливаем флаг ошибки
+    } else if (input.id === "weight") {
+      const weight = parseFloat(input.value);
+      if (isNaN(weight) || weight < 1000 || weight > 4000) {
+        errorMessage.textContent = "*Масса должна быть между 1000 и 4000";
+        input.classList.add('input-error');
+        input.dataset.errorShown = "true"; // Устанавливаем флаг ошибки
+      } else {
+        errorMessage.textContent = "";
+        input.classList.remove('input-error');
+        input.dataset.errorShown = ""; // Сбрасываем флаг ошибки
+      }
     }
   }
 }
@@ -88,7 +105,11 @@ function checkInputs() {
     let allFilled = true;
     inputs.forEach(input => {
         // Проверка заполненности и правильности ввода
-        if (input.value.trim() === "" || (input.id === "tel" && !validatePhoneNumber(input.value))) {
+        if (input.value.trim() === "" || 
+            (input.id === "tel" && !validatePhoneNumber(input.value)) || 
+            (input.id === "carreg" && !registrationNumberPattern.test(input.value)) || 
+            (input.id === "weight" && (isNaN(parseFloat(input.value)) || parseFloat(input.value) < 1000 || parseFloat(input.value) > 4000))
+        ) {
             allFilled = false;
         }
     });
