@@ -133,7 +133,7 @@ $(document).ready(function() {
       });
 
       // Сохранение данных, если нужно
-      tg.sendData(JSON.stringify(formData));
+      //tg.sendData(JSON.stringify(formData));
       
       // Переход на другую страницу (или раздел)
       $('#form-page').hide();
