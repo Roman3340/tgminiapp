@@ -6,6 +6,11 @@ body {
 	background: var(--tg-theme-bg-color);
 }
 
+.container {
+  margin-left: 50%;
+  margin-top: 2vh;
+}
+
 .container input {
     border-radius: 15px;
     width: 190px;
