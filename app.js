@@ -123,10 +123,19 @@ $(document).ready(function() {
           carreg: document.getElementById("carreg").value
       };
       
-      tg.sendData(JSON.stringify(userData)); // Отправка данных в телеграм
-
-      $('#form-page').hide();
-      $('#main-menu').show();
+      // Отправка данных на сервер
+      fetch('http://localhost:8000/register_user', {
+          method: 'POST',
+          headers: {
+              'Content-Type': 'application/json'
+          },
+          body: JSON.stringify(userData)
+      }).then(response => response.json())
+        .then(data => {
+            console.log('User registered:', data);
+            $('#form-page').hide();
+            $('#main-menu').show();
+        }).catch(error => console.error('Error:', error));
   });
 
   let usercard = document.getElementById("usercard");
