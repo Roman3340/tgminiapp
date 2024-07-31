@@ -25,23 +25,25 @@ function validateInputOnBlur(event) {
   let input = event.target;
   let errorMessage = input.nextElementSibling;
 
-  // Создаем сообщение об ошибке, если оно отсутствует
-  if (!errorMessage || !errorMessage.classList.contains('error-message')) {
-    errorMessage = document.createElement('span');
-    errorMessage.classList.add('error-message');
-    input.parentNode.appendChild(errorMessage);
-  }
+  // Проверяем, была ли уже показана ошибка для данного поля
+  if (!input.dataset.errorShown) {
+    // Создаем сообщение об ошибке, если оно отсутствует
+    if (!errorMessage || !errorMessage.classList.contains('error-message')) {
+      errorMessage = document.createElement('span');
+      errorMessage.classList.add('error-message');
+      input.parentNode.appendChild(errorMessage);
+    }
 
-  // Проверяем состояние поля
-  if (input.value === "") {
-    errorMessage.textContent = "*обязательно для заполнения";
-    input.classList.add('input-error');
-  } else if (input.id === "tel" && !validatePhoneNumber(input.value)) {
-    errorMessage.textContent = "*номер заполнен не полностью";
-    input.classList.add('input-error');
-  } else {
-    errorMessage.textContent = "";
-    input.classList.remove('input-error');
+    // Проверяем состояние поля
+    if (input.value === "") {
+      errorMessage.textContent = "*обязательно для заполнения";
+      input.classList.add('input-error');
+      input.dataset.errorShown = "true"; // Устанавливаем флаг ошибки
+    } else if (input.id === "tel" && !validatePhoneNumber(input.value)) {
+      errorMessage.textContent = "*номер заполнен не полностью";
+      input.classList.add('input-error');
+      input.dataset.errorShown = "true"; // Устанавливаем флаг ошибки
+    }
   }
 }
 
@@ -52,6 +54,9 @@ function clearErrorMessage(event) {
   if (errorMessage && errorMessage.classList.contains('error-message')) {
     errorMessage.parentNode.removeChild(errorMessage); // Удаляем элемент
   }
+
+  input.classList.remove('input-error');
+  input.dataset.errorShown = ""; // Сбрасываем флаг ошибки
 }
 
 function handleInput(event) {
@@ -60,6 +65,7 @@ function handleInput(event) {
     let formattedValue = formatPhoneNumber(input.value);
     input.value = formattedValue;
   }
+  clearErrorMessage(event); // Удаляем сообщение об ошибке при вводе
   checkInputs();
 }
 
