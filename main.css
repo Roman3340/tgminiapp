@@ -65,15 +65,15 @@ body {
 .btn {
 	display: inline-block;
 	padding: 10px 5vw;
-  width: 30%;
+  width: 70%;
 	border: none;
 	background: rgb(248, 168, 24);
 	border-radius: 10px;
 	color: #fff;
-	text-transform: uppercase;
 	font-weight: 300;
 	transition: background .2s linear;
   text-align: center;
+  margin-left: 15%;
 }
 
 .btn:hover {
