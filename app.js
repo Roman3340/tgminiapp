@@ -132,6 +132,7 @@ Telegram.WebApp.onEvent("mainButtonClicked", function() {
         formData[input.id] = input.value.trim();
     });
     tg.sendData(JSON.stringify(formData));
+    window.location.href = 'mainMenu.html';
 });
 
 let usercard = document.getElementById("usercard");
