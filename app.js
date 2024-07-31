@@ -6,7 +6,6 @@ $(document).ready(function() {
   tg.MainButton.color = '#2cab37';
 
   let inputs = document.querySelectorAll("input");
-  let telInput = document.getElementById("tel");
 
   // Регулярное выражение для проверки регистрационного номера
   const registrationNumberPattern = /^[А-Я]{1}[0-9]{3}[А-Я]{2}\d{2,3}$/;
@@ -15,12 +14,6 @@ $(document).ready(function() {
       input.addEventListener("input", handleInput);
       input.addEventListener("blur", validateInputOnBlur);
       input.addEventListener("focus", clearErrorMessage);
-  });
-
-  document.addEventListener("click", function(event) {
-      if (!event.target.matches("input")) {
-          document.activeElement.blur();
-      }
   });
 
   function validateInputOnBlur(event) {
@@ -116,7 +109,7 @@ $(document).ready(function() {
 
       if (allFilled) {
           if (!tg.MainButton.isVisible) {
-              tg.MainButton.setText("Все поля заполнены!");
+              tg.MainButton.setText("Далее");
               tg.MainButton.show();
           }
       } else {
@@ -127,17 +120,11 @@ $(document).ready(function() {
   }
 
   Telegram.WebApp.onEvent("mainButtonClicked", function() {
-      let formData = {};
-      inputs.forEach(input => {
-          formData[input.id] = input.value.trim();
-      });
+      // Обработка нажатия на кнопку "Далее"
+      // Переход на другую "страницу" (раздел)
 
-      // Сохранение данных, если нужно
-      //tg.sendData(JSON.stringify(formData));
-      
-      // Переход на другую страницу (или раздел)
-      $('#form-page').hide();
-      $('#main-menu').show();
+      $('#form-page').hide(); // Скрыть текущий раздел
+      $('#main-menu').show(); // Показать новый раздел
   });
 
   let usercard = document.getElementById("usercard");
