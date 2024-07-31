@@ -65,7 +65,7 @@ body {
 .btn {
 	display: inline-block;
 	padding: 10px 5vw;
-  width: 30vw;
+  width: 80%;
 	border: none;
 	background: rgb(248, 168, 24);
 	border-radius: 10px;
