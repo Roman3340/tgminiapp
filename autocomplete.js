@@ -12,6 +12,8 @@ $(document).ready(function() {
             brand.models.forEach(model => {
                 const englishBrand = brand.name;
                 const englishModel = model.name;
+                const russianBrand = brand["cyrillic-name"];
+                const russianModel = model["cyrillic-name"];
 
                 // Добавляем английские версии в список автозаполнения
                 carBrandsAndModels.push({
@@ -20,7 +22,7 @@ $(document).ready(function() {
                 });
 
                 // Таблица соответствия
-                lookupTable[`${brand.name} ${model.name}`] = `${englishBrand} ${englishModel}`;
+                lookupTable[`${russianBrand} ${russianModel}`] = `${englishBrand} ${englishModel}`;
             });
         });
 
@@ -40,15 +42,15 @@ $(document).ready(function() {
             }
         });
 
-        // Обработчик ввода для отображения английских версий в выпадающем списке
+        // Обработчик ввода для поиска на основе русских символов
         $('#car').on('input', function() {
             const input = $(this).val();
-            const matchedLabel = Object.keys(lookupTable).find(key => 
-                key.toLowerCase() === input.toLowerCase()
+            const matchingLabels = Object.keys(lookupTable).filter(key =>
+                key.toLowerCase().includes(input.toLowerCase())
             );
-            if (matchedLabel) {
-                $(this).val(lookupTable[matchedLabel]);
-                $('#car').autocomplete('search', lookupTable[matchedLabel]);
+            
+            if (matchingLabels.length > 0) {
+                $('#car').autocomplete('search', lookupTable[matchingLabels[0]]);
             }
         });
     });
