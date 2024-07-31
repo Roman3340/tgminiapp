@@ -18,7 +18,8 @@ $(document).ready(function() {
                 // Добавляем английские версии в список автозаполнения
                 carBrandsAndModels.push({
                     label: `${englishBrand} ${englishModel}`, // Для отображения в списке
-                    value: `${englishBrand} ${englishModel}` // Значение для поля ввода
+                    value: `${englishBrand} ${englishModel}`, // Значение для поля ввода
+                    originalLabel: `${russianBrand} ${russianModel}` // Оригинальное русское значение
                 });
 
                 // Таблица соответствия
@@ -30,10 +31,11 @@ $(document).ready(function() {
         $('#car').autocomplete({
             source: function(request, response) {
                 const term = request.term.toLowerCase();
-                const results = carBrandsAndModels.filter(item =>
+                // Фильтруем список по введённому тексту
+                const filteredResults = carBrandsAndModels.filter(item =>
                     item.label.toLowerCase().includes(term)
                 );
-                response(results);
+                response(filteredResults);
             },
             minLength: 2, // Минимальная длина ввода для начала поиска
             select: function(event, ui) {
@@ -45,12 +47,21 @@ $(document).ready(function() {
         // Обработчик ввода для поиска на основе русских символов
         $('#car').on('input', function() {
             const input = $(this).val();
+            // Фильтруем таблицу по введённому тексту на кириллице
             const matchingLabels = Object.keys(lookupTable).filter(key =>
                 key.toLowerCase().includes(input.toLowerCase())
             );
             
             if (matchingLabels.length > 0) {
-                $('#car').autocomplete('search', lookupTable[matchingLabels[0]]);
+                const matchedResults = matchingLabels.map(key => {
+                    return {
+                        label: lookupTable[key],
+                        value: lookupTable[key],
+                        originalLabel: key
+                    };
+                });
+                $('#car').autocomplete('option', 'source', matchedResults);
+                $('#car').autocomplete('search', input);
             }
         });
     });
