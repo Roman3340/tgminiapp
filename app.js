@@ -23,10 +23,10 @@ document.addEventListener("click", function(event) {
 
 function validateInputOnBlur(event) {
   let input = event.target;
-  let errorMessage = input.nextElementSibling;
+  let errorMessage = input.parentNode.querySelector('.error-message'); // Ищем элемент с классом error-message
 
   // Проверяем, была ли уже показана ошибка для данного поля
-  if (!input.dataset.errorShown) {
+  if (input.dataset.errorShown !== "true") {
     // Создаем сообщение об ошибке, если оно отсутствует
     if (!errorMessage || !errorMessage.classList.contains('error-message')) {
       errorMessage = document.createElement('span');
@@ -49,7 +49,7 @@ function validateInputOnBlur(event) {
 
 function clearErrorMessage(event) {
   let input = event.target;
-  let errorMessage = input.nextElementSibling;
+  let errorMessage = input.parentNode.querySelector('.error-message'); // Ищем элемент с классом error-message
 
   if (errorMessage && errorMessage.classList.contains('error-message')) {
     errorMessage.parentNode.removeChild(errorMessage); // Удаляем элемент
@@ -66,6 +66,7 @@ function handleInput(event) {
     input.value = formattedValue;
   }
   clearErrorMessage(event); // Удаляем сообщение об ошибке при вводе
+  input.dataset.errorShown = "";
   checkInputs();
 }
 
