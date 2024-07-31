@@ -7,6 +7,7 @@ $(document).ready(function() {
 
   let inputs = document.querySelectorAll("input");
 
+  // Регулярное выражение для проверки регистрационного номера
   const registrationNumberPattern = /^[А-Я]{1}[0-9]{3}[А-Я]{2}\d{2,3}$/;
 
   inputs.forEach(input => {
@@ -17,37 +18,40 @@ $(document).ready(function() {
 
   function validateInputOnBlur(event) {
       let input = event.target;
-      let errorMessage = input.parentNode.querySelector('.error-message');
+      let errorMessage = input.parentNode.querySelector('.error-message'); // Ищем элемент с классом error-message
 
+      // Проверяем, была ли уже показана ошибка для данного поля
       if (input.dataset.errorShown !== "true") {
+          // Создаем сообщение об ошибке, если оно отсутствует
           if (!errorMessage || !errorMessage.classList.contains('error-message')) {
               errorMessage = document.createElement('span');
               errorMessage.classList.add('error-message');
               input.parentNode.appendChild(errorMessage);
           }
 
+          // Проверяем состояние поля
           if (input.value === "") {
               errorMessage.textContent = "*обязательно для заполнения";
               input.classList.add('input-error');
-              input.dataset.errorShown = "true";
+              input.dataset.errorShown = "true"; // Устанавливаем флаг ошибки
           } else if (input.id === "tel" && !validatePhoneNumber(input.value)) {
               errorMessage.textContent = "*номер заполнен не полностью";
               input.classList.add('input-error');
-              input.dataset.errorShown = "true";
+              input.dataset.errorShown = "true"; // Устанавливаем флаг ошибки
           } else if (input.id === "carreg" && !registrationNumberPattern.test(input.value)) {
               errorMessage.textContent = "*Неверный формат регистрационного номера. Пример: Т745РЕ154";
               input.classList.add('input-error');
-              input.dataset.errorShown = "true";
+              input.dataset.errorShown = "true"; // Устанавливаем флаг ошибки
           } else if (input.id === "weight") {
               const weight = parseFloat(input.value);
               if (isNaN(weight) || weight < 1000 || weight > 4000) {
                   errorMessage.textContent = "*Масса должна быть между 1000 и 4000";
                   input.classList.add('input-error');
-                  input.dataset.errorShown = "true";
+                  input.dataset.errorShown = "true"; // Устанавливаем флаг ошибки
               } else {
                   errorMessage.textContent = "";
                   input.classList.remove('input-error');
-                  input.dataset.errorShown = "";
+                  input.dataset.errorShown = ""; // Сбрасываем флаг ошибки
               }
           }
       }
@@ -55,14 +59,14 @@ $(document).ready(function() {
 
   function clearErrorMessage(event) {
       let input = event.target;
-      let errorMessage = input.parentNode.querySelector('.error-message');
+      let errorMessage = input.parentNode.querySelector('.error-message'); // Ищем элемент с классом error-message
 
       if (errorMessage && errorMessage.classList.contains('error-message')) {
-          errorMessage.parentNode.removeChild(errorMessage);
+          errorMessage.parentNode.removeChild(errorMessage); // Удаляем элемент
       }
 
       input.classList.remove('input-error');
-      input.dataset.errorShown = "";
+      input.dataset.errorShown = ""; // Сбрасываем флаг ошибки
   }
 
   function handleInput(event) {
@@ -71,7 +75,7 @@ $(document).ready(function() {
           let formattedValue = formatPhoneNumber(input.value);
           input.value = formattedValue;
       }
-      clearErrorMessage(event);
+      clearErrorMessage(event); // Удаляем сообщение об ошибке при вводе
       input.dataset.errorShown = "";
       checkInputs();
   }
@@ -93,6 +97,7 @@ $(document).ready(function() {
   function checkInputs() {
       let allFilled = true;
       inputs.forEach(input => {
+          // Проверка заполненности и правильности ввода
           if (input.value.trim() === "" || 
               (input.id === "tel" && !validatePhoneNumber(input.value)) || 
               (input.id === "carreg" && !registrationNumberPattern.test(input.value)) || 
@@ -115,27 +120,11 @@ $(document).ready(function() {
   }
 
   Telegram.WebApp.onEvent("mainButtonClicked", function() {
-      let userData = {
-          fio: document.getElementById("fio").value,
-          tel: document.getElementById("tel").value,
-          car: document.getElementById("car").value,
-          weight: document.getElementById("weight").value,
-          carreg: document.getElementById("carreg").value
-      };
-      
-      // Отправка данных на сервер
-      fetch('http://localhost:8000/register_user', {
-          method: 'POST',
-          headers: {
-              'Content-Type': 'application/json'
-          },
-          body: JSON.stringify(userData)
-      }).then(response => response.json())
-        .then(data => {
-            console.log('User registered:', data);
-            $('#form-page').hide();
-            $('#main-menu').show();
-        }).catch(error => console.error('Error:', error));
+      // Обработка нажатия на кнопку "Далее"
+      // Переход на другую "страницу" (раздел)
+
+      $('#form-page').hide(); // Скрыть текущий раздел
+      $('#main-menu').show(); // Показать новый раздел
   });
 
   let usercard = document.getElementById("usercard");
